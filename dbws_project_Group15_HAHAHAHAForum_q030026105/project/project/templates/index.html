@@ -1,0 +1,74 @@
+{% extends "./base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<!-- tt-mobile menu -->
+{% block content %}
+<main id="tt-pageContent" class="tt-offset-small">
+    <div class="container">
+        <div class="tt-topic-list">
+            <div class="tt-list-header">
+                <div class="tt-col-topic">
+                    Topic
+                </div>
+                <div class="tt-col-value hide-mobile" style="float:left">
+                    Replies
+                </div>
+                <div class="tt-col-category" style="width:100px;margin-left: 5em;margin-right: 3em;">
+                    Category
+                </div>
+            </div>
+            <form method="post" autocomplete="off" name="moderate" id="moderate" action="">
+                {% if post_list %}
+                {% for post in post_list %}
+                    <div class="tt-item">
+
+                        <div class="tt-col-avatar">
+                            <svg class="tt-icon">
+                                <use xlink:href="#icon-ava-{{ post.get_first_name }}"></use>
+                            </svg>
+                        </div>
+                        <div class="tt-col-description">
+                            <h6 class="tt-title">
+                                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                            </h6>
+                            <div class="row align-items-center no-gutters">
+                                <div class="col-11">
+                                    <ul class="tt-list-badge">
+                                        <li class="show-mobile">
+                                            <a href=""><span class="tt-color04 tt-badge">{{ post.column }}</span></a>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-1 ml-auto show-mobile">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tt-col-value tt-color-select hide-mobile" style="margin-right: 6.5em;">
+                            {{ post.comment_num }}
+                        </div>
+                        <div class="tt-col-category" style="width:95px">
+                            <span class="tt-color0{{ post.get_column }} tt-badge" style="margin-left: -5em;">{{ post.column }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+                </form>
+                {% if is_paginated %}
+                    <div class="pagination-simple">
+                        {% if page_obj.has_previous %}
+                            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        {% endif %}
+                        <span class="current">Page {{ page_obj.number }}  /  {{ paginator.num_pages }} </span>
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                        {% endif %}
+                    </div>
+                {%  endif %}
+                </div>
+                </div>
+            {% endif %}
+</main>
+{% endblock %}
+</body>
+</html>

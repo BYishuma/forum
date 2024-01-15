@@ -1,0 +1,48 @@
+{% extends "./base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <!-- tt-mobile menu -->
+        {% block content %}
+           <main id="tt-pageContent">
+            <div class="tt-custom-mobile-indent container">
+                <div class="tt-categories-title">
+                    <div class="tt-title">
+                        Categories
+                    </div>
+                </div>
+                <div class="tt-categories-list">
+                    <div class="row">
+                        {% for column in column_list%}
+                       <div class="col-md-6 col-lg-4">
+
+                            <div class="tt-item">
+                                <div class="tt-item-header">
+                                    <ul class="tt-list-badge">
+                                        <li>
+                                            <a href="{{ column.get_absolute_url }}"><span class="tt-color0{{ column.get_number }} tt-badge">{{ column.name }}</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tt-item-layout">
+                                    <div class="tt-innerwrapper">
+                                        {{ column.description }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                </div>
+                        <div class="col-12">
+                            <div class="tt-row-btn">
+                                <button type="button" class="btn-icon js-topiclist-showmore"><svg class="tt-icon">
+                                <use xlink:href="#icon-load_lore_icon"></use></svg></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </main>
+        {% endblock %}
+    </body>
+</html>

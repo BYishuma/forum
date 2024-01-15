@@ -1,0 +1,146 @@
+{% extends "./base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <!-- tt-mobile menu -->
+        {% block content %}
+        <main id="tt-pageContent" class="tt-offset-small">
+            <div class="tt-wrapper-section">
+                <div class="container">
+                    <div class="tt-user-header">
+                        <div class="tt-col-avatar">
+                            <div class="tt-icon">
+                                <svg class="tt-icon">
+                                <use xlink:href="#icon-ava-{% if user.username|first|lower not in '0123456789' %}{{ user.username|first|lower }}{% else %}u{% endif %}"></use></svg>
+                            </div>
+                        </div>
+                        <div class="tt-col-title">
+                            <div class="tt-title">
+                                <a href="#">{{ user }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="tt-tab-wrapper">
+                    <div class="tt-wrapper-inner">
+                        <ul class="nav nav-tabs pt-tabs-default" role="tablist">
+                            <li class="nav-item show">
+                                <a class="nav-link active" data-toggle="tab" href="#tt-tab-02" role="tab"><span>Replies</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tt-tab-03" role="tab"><span>Threads</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane tt-indent-none show active" id="tt-tab-02" role="tabpanel">
+                            <div class="tt-topic-list">
+                                {% if request.user.notifications.all %}
+                                {%for notification in request.user.notifications.all %}
+                                <div class="tt-item">
+                                    <div class="tt-col-avatar">
+                                        <svg class="tt-icon">
+                                        <use xlink:href="#icon-ava-{% if notification.actor|first|lower not in '0123456789' %}{{ notification.actor|first|lower }}{% else %}u{% endif %}"></use></svg>
+                                    </div>
+                                    <div class="tt-col-description">
+                                        <h6 class="tt-title">
+                                            <a href="{{ notification.data.url }}">[{{ notification.timesince }}] before ,{{ notification.verb }} from {{ notification.actor }}</a>
+                                        </h6>
+                                        <div class="row align-items-center no-gutters">
+                                            <div class="col-1 ml-auto show-mobile">
+                                                <div class="tt-value">
+                                                    1h
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                    <li>Not message</li>
+                                {% endif %}
+                                <div class="tt-row-btn">
+                                    <button type="button" class="btn-icon js-topiclist-showmore"><svg class="tt-icon">
+                                    <use xlink:href="#icon-load_lore_icon"></use></svg></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane tt-indent-none" id="tt-tab-03" role="tabpanel">
+                            <div class="tt-topic-list">
+                                <div class="tt-list-header">
+                                    <div class="tt-col-topic">
+                                         Topic
+                                    </div>
+                                    <div class="tt-col-category">
+                                        Category
+                                    </div>
+                                    <div class="tt-col-value">
+                                        Replies
+                                    </div>
+                                    <div class="tt-col-value">
+                                        Activity
+                                    </div>
+                                </div>
+                                {% if view.get_queryset %}
+                                {%for topic in view.get_queryset %}
+                                <div class="tt-item">
+                                    <div class="tt-col-avatar">
+                                        <svg class="tt-icon">
+                                        <use xlink:href="#icon-ava-d"></use></svg>
+                                    </div>
+                                    <div class="tt-col-description">
+                                        <h6 class="tt-title">
+                                            <a href="{{ topic.get_absolute_url }}">{{ topic.content }}</a>
+                                        </h6>
+                                        <div class="row align-items-center no-gutters">
+                                            <div class="col-11">
+                                                <ul class="tt-list-badge">
+                                                    <li class="show-mobile">
+                                                        <a href="#"><span class="tt-color01 tt-badge">politics</span></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-1 ml-auto show-mobile">
+                                                <div class="tt-value">
+                                                    1h
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tt-col-category">
+                                        <span class="tt-color0{{ topic.column.id }} tt-badge">{{ topic.column }}</span>
+                                    </div>
+                                    <div class="tt-col-value tt-color-select hide-mobile">
+                                        {{ topic.comment_num }}
+                                    </div>
+                                    <div class="tt-col-value hide-mobile">
+                                        {{ topic.created_at }}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                    <li>Not message</li>
+                                {% endif %}
+                                <div class="tt-row-btn">
+                                    <button type="button" class="btn-icon js-topiclist-showmore"><svg class="tt-icon">
+                                    <use xlink:href="#icon-load_lore_icon"></use></svg></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div id="js-popup-settings" class="tt-popup-settings">
+            <div class="tt-btn-col-close">
+                <a href="#"><span class="tt-icon-title"><svg>
+                <use xlink:href="#icon-settings_fill"></use></svg></span><span class="tt-icon-text">Settings</span><span class="tt-icon-close"><svg>
+                <use xlink:href="#icon-cancel"></use></svg></span></a>
+            </div>
+        </div><a href="{%url 'post_create'%}" class="tt-btn-create-topic"><span class="tt-icon"><svg>
+        <use xlink:href="#icon-create_new"></use></svg></span></a>
+        {% endblock %}
+    </body>
+</html>

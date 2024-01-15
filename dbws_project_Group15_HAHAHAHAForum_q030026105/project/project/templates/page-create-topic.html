@@ -1,0 +1,79 @@
+{% extends "./base.html" %}
+<html lang="en">
+    <body>
+        <!-- tt-mobile menu -->
+        {% block content %}
+        <main id="tt-pageContent">
+
+            <div class="container">
+                <div class="tt-wrapper-inner">
+                    <h1 class="tt-title-border">
+                        Create New Topic
+                    </h1>
+                        <div class="form-group">
+                            <label for="inputTopicTitle">Topic Title</label>
+                            <form class="form-default form-create-topic" method="post" action="{% url 'post_create' %}">
+                            {% csrf_token %}
+                                <fieldset>
+                            <div class="tt-value-wrapper">
+                                <input type="text" name="title" class="form-control" id="inputTopicTitle" placeholder="Subject of your topic">
+                                <input type="hidden" name="post_id" value="{{ post.pk }}">
+                            </div>
+                                </fieldset>
+                            <div class="tt-note">
+                                Describe your topic well, while keeping the subject as short as possible.
+                            </div>
+
+                        <div class="pt-editor">
+                            <h6 class="pt-title">
+                                Topic Body
+                            </h6>
+                            <div class="form-group">
+                                <textarea name="message" class="form-control" rows="5" placeholder="Lets get started"></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputTopicTitle">Category</label><select class="form-control" name="form-control">
+                                            <option value="1">
+                                                affection
+                                            </option>
+                                            <option value="2">
+                                                achievement
+                                            </option>
+                                            <option value="3">
+                                                bonding
+                                            </option>
+                                            <option value="4">
+                                                enjoy_the_moment
+                                            </option>
+                                            <option value="5">
+                                                leisure
+                                            </option>
+                                            <option value="6">
+                                                nature
+                                            </option>
+                                            <option value="7">
+                                                exercise
+                                            </option>
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            </fieldset>
+                            <div class="row">
+                                <div class="col-auto ml-md-auto">
+                                    <button type="submit" class="btn btn-secondary btn-width-lg">Create Post</button>
+                                </div>
+                            </div>
+                        </div>
+                     </form>
+                </div>
+            </div>
+        </main>
+        <div class="modal fade" id="modalAdvancedSearch" tabindex="-1" role="dialog" aria-label="myModalLabel" aria-hidden="true">
+        </div>
+        {% endblock %}
+    </body>
+</html>

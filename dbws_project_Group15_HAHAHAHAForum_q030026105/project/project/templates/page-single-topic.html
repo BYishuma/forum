@@ -1,0 +1,111 @@
+{% extends "./base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <!-- tt-mobile menu -->
+        {% block content %}
+        <main id="tt-pageContent">
+            <div class="container">
+                <div class="tt-single-topic-list">
+                    <div class="tt-item">
+                        <div class="tt-single-topic">
+                            <div class="tt-item-header">
+                                <div class="tt-item-info info-top">
+                                    <div class="tt-avatar-icon">
+                                        <i class="tt-icon"><svg>
+                                        <use xlink:href="#icon-ava-{{ post.get_first_name }}"></use></svg></i>
+                                    </div>
+                                    <div class="tt-avatar-title">
+                                        <a href="{% url 'user_page' %}">{{post.author.username}}</a>
+                                    </div><a href="#" class="tt-info-time"><i class="tt-icon"><svg>
+                                    <use xlink:href="#icon-time"></use></svg></i>{{ post.created_at }}</a>
+                                </div>
+                                <h3 class="tt-item-title">
+                                    <a href="#">{{ post.title }}</a>
+                                </h3>
+                                <div class="tt-item-tag">
+                                    <ul class="tt-list-badge">
+                                        <li>
+                                            <a href="#"><span class="tt-color03 tt-badge">{{ post.column }}</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tt-item-description">
+                                <p>{{ post.content }}</p>
+                                <img src="images/single-topic-img01.jpg" alt="">
+                            </div>
+                </div>
+                    </div>
+                    </div>
+                    {% for comment in comment_list%}
+                    <div class="tt-item">
+                        <div class="tt-single-topic">
+                            <div class="tt-item-header pt-noborder">
+                                <div class="tt-item-info info-top">
+                                    <div class="tt-avatar-icon">
+                                        <i class="tt-icon"><svg>
+                                        <use xlink:href="#icon-ava-{% if comment.author.username|first|lower not in '0123456789' %}{{ comment.author.username|first|lower }}{% else %}u{% endif %}"></use></svg></i>
+                                    </div>
+                                    <div class="tt-avatar-title">
+                                        <a href="#">{{comment.author.username }}</a>
+                                    </div><a href="#" class="tt-info-time"><i class="tt-icon"><svg>
+                                    <use xlink:href="#icon-time"></use></svg></i>{{ comment.created_at }}</a>
+                                </div>
+                            </div>
+                            <div class="tt-item-description">
+                                {{ comment.content }}<br>
+                                    {% if comment.comment_parent %}
+                                    <div class="topic-inner">
+                                        <div class="topic-inner-title">
+
+                                            <div class="topic-inner-avatar">
+                                                <i class="tt-icon"><svg>
+                                                <use xlink:href="#icon-ava-s"></use></svg></i>
+                                            </div>
+                                            <div class="topic-inner-title">
+                                                <a href="#">{{comment.comment_parent.author}}</a>
+                                            </div>
+                                        </div>
+                                        <div class="topic-inner-description">
+                                            {{comment.comment_parent.content}}<br>
+                                        </div>
+                                    </div>
+                                        {% endif %}
+                            </div>
+                            </div>
+                        </div>
+                    {% endfor%}
+                    </div>
+                <div class="tt-wrapper-inner">
+                    <h4 class="tt-title-separator">
+                        <span>You’ve reached the end of replies</span>
+                    </h4>
+                </div>
+                <div class="tt-wrapper-inner">
+                    <div class="pt-editor form-default">
+                        <h6 class="pt-title">
+                            Post Your Reply
+                        </h6>
+                        <form method="post" action="{% url 'make_comment' %}">
+                        {% csrf_token %}
+                        <div class="form-group" >
+                            <textarea name="message" class="form-control" rows="5" placeholder="Lets get started"></textarea>
+                            <input type="hidden" name="comment_id" value="{{ comment.pk }}">
+                            <input type="hidden" name="post_id" value="{{ post.pk }}">
+                        </div>
+                        <div class="pt-row">
+                            <div class="col-auto">
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-secondary btn-width-lg">Reply</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        {% endblock %}
+    </body>
+</html>
